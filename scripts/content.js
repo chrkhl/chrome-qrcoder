@@ -4,11 +4,12 @@ var qrCoder = (() => {
   const registeredListeners = [];
   const qrContainer = document.createElement('div');
   const qrCode = document.createElement('div');
+  let locked = false;
   qrContainer.setAttribute('class', 'qrcode-container');
   qrContainer.appendChild(qrCode);
   
   const showQRCodeForText = text => {
-    if (!text) return;
+    if (!text || locked) return;
 
     qrContainer.style.display = 'block';
     qrCode.innerHTML = '';
@@ -24,13 +25,21 @@ var qrCoder = (() => {
     }
   };
   
-  const showQRCodeForSelectedText = () => {
+  const handleSelectionChange = () => {
+    if (locked) return;
+    
     const selectedText = window.getSelection().toString();
     showQRCodeForText(selectedText);
   }
   
   const hideQRCode = () => {
     qrContainer.style.display = 'none';
+  };
+  
+  const handleKeyDown = event => {
+    if (event.key === 'l') {
+      locked = !locked;
+    }
   };
   
   qrContainer.addEventListener('click', hideQRCode);
@@ -46,7 +55,8 @@ var qrCoder = (() => {
   };
   
   const init = () => {
-    document.addEventListener('selectionchange', showQRCodeForSelectedText);
+    document.addEventListener('selectionchange', handleSelectionChange);
+    document.addEventListener('keydown', handleKeyDown);
     document.querySelectorAll('a').forEach(addMouseOverListener);
     
     hideQRCode();
@@ -55,7 +65,8 @@ var qrCoder = (() => {
   };
   
   const destroy = () => {
-    document.removeEventListener('selectionchange', showQRCodeForSelectedText);
+    document.removeEventListener('selectionchange', handleSelectionChange);
+    document.removeEventListener('keydown', handleKeyDown);
     
     registeredListeners.forEach(listener => {
       listener.link.removeEventListener('mouseover', listener.mouseover);
