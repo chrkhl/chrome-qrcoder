@@ -7,18 +7,27 @@ var qrCoder = (() => {
   qrContainer.setAttribute('class', 'qrcode-container');
   qrContainer.appendChild(qrCode);
   
-  const showQRCodeForLinkUrl = link => {
+  const showQRCodeForText = text => {
+    if (!text) return;
+
     qrContainer.style.display = 'block';
     qrCode.innerHTML = '';
     
     try {
       new QRCode(qrCode, {
-        text: link.href,
-        height: 240,
-        width: 240
+        text,
+        height: 260,
+        width: 260
       });
-    } catch {}
+    } catch(error) {
+      qrCode.innerText = 'QR Code error';
+    }
   };
+  
+  const showQRCodeForSelectedText = () => {
+    const selectedText = window.getSelection().toString();
+    showQRCodeForText(selectedText);
+  }
   
   const hideQRCode = () => {
     qrContainer.style.display = 'none';
@@ -27,7 +36,7 @@ var qrCoder = (() => {
   qrContainer.addEventListener('click', hideQRCode);
   
   const addMouseOverListener = link => {
-    const logThisLink = () => showQRCodeForLinkUrl(link);
+    const logThisLink = () => showQRCodeForText(link.href);
     link.addEventListener('mouseover', logThisLink);
     
     registeredListeners.push({
@@ -37,12 +46,17 @@ var qrCoder = (() => {
   };
   
   const init = () => {
+    document.addEventListener('selectionchange', showQRCodeForSelectedText);
     document.querySelectorAll('a').forEach(addMouseOverListener);
+    
     hideQRCode();
+    
     document.body.appendChild(qrContainer);
   };
   
   const destroy = () => {
+    document.removeEventListener('selectionchange', showQRCodeForSelectedText);
+    
     registeredListeners.forEach(listener => {
       listener.link.removeEventListener('mouseover', listener.mouseover);
     })
