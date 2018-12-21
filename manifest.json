@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+    "name": "QR Coder",
+    "description": "This extension lets you generate QR codes from any link inside of a page",
+    "version": "0.1",
+    "homepage_url": "https://github.com/chrkhl/qrcoder",
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_title": "QRCoder"
+    },
+    "background": {
+      "scripts": ["scripts/extension.js"],
+      "persistent": false
+    },
+    "permissions": [
+        "activeTab"
+    ],
+    "content_security_policy": "script-src 'self' https://www.gstatic.com/; object-src 'self'"
+}
