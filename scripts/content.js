@@ -5,7 +5,8 @@ var qrCoder = (() => {
   const qrContainer = document.createElement('div');
   const qrCode = document.createElement('div');
   let locked = false;
-  qrContainer.setAttribute('class', 'qrcode-container');
+  qrCode.setAttribute('class', 'qrcode');
+  qrContainer.setAttribute('class', 'qrcoder qrcode-container');
   qrContainer.appendChild(qrCode);
   
   const showQRCodeForText = (text, title) => {
@@ -22,7 +23,10 @@ var qrCoder = (() => {
         width: 260
       });
     } catch(error) {
-      qrCode.innerText = 'QR Code error';
+      qrCode.innerHTML = `
+        <img src="${chrome.runtime.getURL('assets/icon-active.png')}" class="error" />
+        <br />
+        Sorry, could not generate QR Code!`;
     }
   };
   

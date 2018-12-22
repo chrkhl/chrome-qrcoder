@@ -1,4 +1,4 @@
-.qrcode-container {
+.qrcoder.qrcode-container {
   position: fixed;
   top: 20px;
   right: 20px;
@@ -8,4 +8,13 @@
   z-index: 100000000;
   box-shadow: 10px 10px 61px -20px rgba(0,0,0,0.75);
   display: none;
+}
+
+.qrcoder .qrcode {
+  text-align: center;
+}
+
+.qrcoder .qrcode img.error {
+  width: 80px;
+  margin-bottom: 10px;
 }

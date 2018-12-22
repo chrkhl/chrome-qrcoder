@@ -54,13 +54,13 @@ var qrcoder = {
 
     this.onBrowserDisconnectClosure = this.onBrowserDisconnect.bind(this);
     
-    chrome.tabs.insertCSS(this.tab.id, { file: '/style.css' });
+    chrome.tabs.insertCSS(this.tab.id, { file: '/assets/style.css' });
     chrome.tabs.executeScript(this.tab.id, { file: '/scripts/qrcode.min.js' });
     chrome.tabs.executeScript(this.tab.id, { file: '/scripts/content.js' });
     
     chrome.browserAction.setIcon({ 
       tabId: this.tab.id,
-      path: '/icon-active.png'
+      path: '/assets/icon-active.png'
     });
     
     if (!this.port) return;
@@ -82,7 +82,7 @@ var qrcoder = {
 
     chrome.browserAction.setIcon({  
       tabId: this.tab.id,
-      path: '/icon.png'
+      path: '/assets/icon.png'
     });
 
     window.removeTab(this.tab.id);
