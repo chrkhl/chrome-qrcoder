@@ -11,7 +11,7 @@ var qrCoder = (() => {
   const showQRCodeForText = text => {
     if (!text || locked) return;
 
-    qrContainer.style.display = 'block';
+    qrContainer.style.display = 'inline-block';
     qrCode.innerHTML = '';
     
     try {
