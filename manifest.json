@@ -16,5 +16,15 @@
         "activeTab"
     ],
     "content_security_policy": "script-src 'self' https://www.gstatic.com/; object-src 'self'",
-    "web_accessible_resources": ["assets/icon.png", "assets/icon-active.png"]
+    "web_accessible_resources": [
+      "assets/icon.png",
+      "assets/icon-active.png",
+      "assets/home.png",
+      "assets/lock-closed.png",
+      "assets/lock-open.png",
+      "assets/text-selection.png",
+      "assets/text-selection-active.png",
+      "assets/link.png",
+      "assets/link-active.png"
+    ]
 }

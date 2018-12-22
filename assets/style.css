@@ -18,3 +18,15 @@
   width: 80px;
   margin-bottom: 10px;
 }
+
+.qrcoder .toolbar {
+  text-align: center;
+  border-bottom: 1px solid gray;
+  margin-bottom: 12px;
+}
+
+.qrcoder .toolbar img {
+  width: 16px;
+  margin: 0 8px 8px 8px;
+  cursor: pointer;
+}

@@ -42,8 +42,12 @@ chrome.runtime.onConnect.addListener(port => {
 
 chrome.runtime.onSuspend.addListener(() => {
   for(let tabId in tabs){
-    tabs[tabId].deactivate(true);
+    tabs[tabId].deactivate();
   }
+});
+
+chrome.tabs.onUpdated.addListener(tabId => {
+  tabs[tabId].deactivate();
 });
 
 var qrcoder = {

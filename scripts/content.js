@@ -4,9 +4,12 @@ var qrCoder = (() => {
   const registeredListeners = [];
   const qrContainer = document.createElement('div');
   const qrCode = document.createElement('div');
+  const toolbar = document.createElement('div');
   let locked = false;
   qrCode.setAttribute('class', 'qrcode');
   qrContainer.setAttribute('class', 'qrcoder qrcode-container');
+  toolbar.setAttribute('class', 'toolbar');
+  qrContainer.appendChild(toolbar);
   qrContainer.appendChild(qrCode);
   
   const showQRCodeForText = (text, title) => {
@@ -59,12 +62,25 @@ var qrCoder = (() => {
     });
   };
   
+  const initToolbar = () => {
+    toolbar.innerHTML = `
+      <img src="${chrome.runtime.getURL('assets/home.png')}" />
+      <img src="${chrome.runtime.getURL('assets/lock-closed.png')}" />
+      <img src="${chrome.runtime.getURL('assets/lock-open.png')}" />
+      <img src="${chrome.runtime.getURL('assets/text-selection.png')}" />
+      <img src="${chrome.runtime.getURL('assets/text-selection-active.png')}" />
+      <img src="${chrome.runtime.getURL('assets/link.png')}" />
+      <img src="${chrome.runtime.getURL('assets/link-active.png')}" />
+    `;
+  }
+  
   const init = () => {
     document.addEventListener('selectionchange', handleSelectionChange);
     document.addEventListener('keydown', handleKeyDown);
     document.querySelectorAll('a').forEach(addMouseOverListener);
     
     showQRCodeForText(location.href);
+    initToolbar();    
     
     document.body.appendChild(qrContainer);
   };
@@ -79,7 +95,7 @@ var qrCoder = (() => {
     
     document.body.removeChild(qrContainer);
   };
-  
+
   return {
     init, destroy
   };
