@@ -8,11 +8,12 @@ var qrCoder = (() => {
   qrContainer.setAttribute('class', 'qrcode-container');
   qrContainer.appendChild(qrCode);
   
-  const showQRCodeForText = text => {
+  const showQRCodeForText = (text, title) => {
     if (!text || locked) return;
 
     qrContainer.style.display = 'inline-block';
     qrCode.innerHTML = '';
+    qrCode.setAttribute('title', title || text);
     
     try {
       new QRCode(qrCode, {
@@ -45,7 +46,7 @@ var qrCoder = (() => {
   qrContainer.addEventListener('click', hideQRCode);
   
   const addMouseOverListener = link => {
-    const logThisLink = () => showQRCodeForText(link.href);
+    const logThisLink = () => showQRCodeForText(link.href, link.innerText);
     link.addEventListener('mouseover', logThisLink);
     
     registeredListeners.push({
