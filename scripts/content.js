@@ -59,7 +59,7 @@ var qrCoder = (() => {
     document.addEventListener('keydown', handleKeyDown);
     document.querySelectorAll('a').forEach(addMouseOverListener);
     
-    hideQRCode();
+    showQRCodeForText(location.href);
     
     document.body.appendChild(qrContainer);
   };
