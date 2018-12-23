@@ -25,6 +25,35 @@
   margin-bottom: 12px;
 }
 
+.qrcoder .infobar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-top: 1px solid gray;
+  margin-top: 12px;
+  padding-top: 8px;
+  max-width: 260px;
+}
+
+.qrcoder .infobar img {
+  width: 12px;
+  margin-right: 6px;
+}
+
+.qrcoder .infobar span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qrcoder .toolbar button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
 .qrcoder .toolbar img {
   width: 16px;
   margin: 0 8px 8px 8px;

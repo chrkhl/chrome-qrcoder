@@ -81,14 +81,18 @@ var qrcoder = {
       return;
     }
 
-    this.port.postMessage({ type: 'destroy' });
-    this.port.onDisconnect.removeListener(this.onBrowserDisconnectClosure);
+    try {
+      this.port.postMessage({ type: 'destroy' });
+      this.port.onDisconnect.removeListener(this.onBrowserDisconnectClosure);
+    } catch(error) {
+      console.error('error', error);
+    }
 
     chrome.browserAction.setIcon({  
       tabId: this.tab.id,
       path: '/assets/icon.png'
     });
-
+    
     window.removeTab(this.tab.id);
   },
 
