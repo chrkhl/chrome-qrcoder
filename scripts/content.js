@@ -11,8 +11,8 @@ var qrCoder = (() => {
   
   qrCode.setAttribute('class', 'qrcode');
   qrContainer.setAttribute('class', 'qrcoder qrcode-container');
-  toolbarContainer.setAttribute('class', 'toolbar');
-  infobar.setAttribute('class', 'infobar');
+  toolbarContainer.setAttribute('class', 'qrcoder-toolbar');
+  infobar.setAttribute('class', 'qrcoder-infobar');
   qrContainer.appendChild(toolbarContainer);
   qrContainer.appendChild(qrCode);
   qrContainer.appendChild(infobar);
@@ -60,9 +60,9 @@ var qrCoder = (() => {
       renderInfoBar();
     } catch(error) {
       qrCode.innerHTML = `
-        <img src="${chrome.runtime.getURL('assets/icon-active.png')}" class="error" />
+        <img src="${chrome.runtime.getURL('assets/icon-active.png')}" class="qrcoder-error" />
         <br />
-        Sorry, could not generate QR Code!`;
+        <span class="qrcoder-error">Sorry, could not generate QR Code!</span>`;
       renderInfoBar();
     }
   };

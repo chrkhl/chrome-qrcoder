@@ -14,39 +14,47 @@
   text-align: center;
 }
 
-.qrcoder .qrcode img.error {
+.qrcoder .qrcode img.qrcoder-error {
   width: 80px;
   margin-bottom: 10px;
 }
 
-.qrcoder .toolbar {
+.qrcoder .qrcode span.qrcoder-error {
+  font-size: 12px;
+  font-style: italic;
+}
+
+.qrcoder .qrcoder-toolbar {
   text-align: center;
   border-bottom: 1px solid gray;
   margin-bottom: 12px;
 }
 
-.qrcoder .infobar {
+.qrcoder .qrcoder-infobar {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  max-width: 260px;
+}
+ 
+.qrcoder .qrcoder-infobar:not(:empty) {
   border-top: 1px solid gray;
   margin-top: 12px;
   padding-top: 8px;
-  max-width: 260px;
 }
 
-.qrcoder .infobar img {
+.qrcoder .qrcoder-infobar img {
   width: 12px;
   margin-right: 6px;
 }
 
-.qrcoder .infobar span {
+.qrcoder .qrcoder-infobar span {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.qrcoder .toolbar button {
+.qrcoder .qrcoder-toolbar button {
   padding: 0;
   margin: 0;
   border: none;
@@ -54,7 +62,7 @@
   outline: none;
 }
 
-.qrcoder .toolbar img {
+.qrcoder .qrcoder-toolbar img {
   width: 16px;
   margin: 0 8px 8px 8px;
   cursor: pointer;
