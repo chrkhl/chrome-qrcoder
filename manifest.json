@@ -13,7 +13,8 @@
       "persistent": false
     },
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "storage"
     ],
     "content_security_policy": "script-src 'self' https://www.gstatic.com/; object-src 'self'",
     "web_accessible_resources": [

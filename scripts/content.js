@@ -7,8 +7,9 @@ var qrCoder = (() => {
   const toolbarContainer = document.createElement('div');
   const infobar = document.createElement('div');
   const currentCode = { type: null, text: null };
+  let currentSettings = null;
   let toolbar;
-  
+
   qrCode.setAttribute('class', 'qrcode');
   qrContainer.setAttribute('class', 'qrcoder qrcode-container');
   toolbarContainer.setAttribute('class', 'qrcoder-toolbar');
@@ -16,9 +17,32 @@ var qrCoder = (() => {
   qrContainer.appendChild(toolbarContainer);
   qrContainer.appendChild(qrCode);
   qrContainer.appendChild(infobar);
-  
+
+  const setQRCodePosition = () => {
+    let positionStyle = 'display:inline-block;';
+
+    if (currentSettings.posX === 'left') {
+      positionStyle += 'left:20px;';
+    } else {
+      positionStyle += 'right:20px;';
+    }
+
+    if (currentSettings.posY === 'bottom') {
+      positionStyle += 'bottom:20px;';
+    } else {
+      positionStyle += 'top:20px;';
+    }
+
+    qrContainer.setAttribute('style', positionStyle);
+  };
+
+  const updateSettings = (key, value) => {
+    currentSettings[key] = value;
+    chrome.storage.sync.set({'qrcoder.settings': JSON.stringify(currentSettings)});
+  }
+
   const renderInfoBar = () => {
-    if (!toolbar.state.infoActive || !currentCode.type) {
+    if (!currentSettings.infoActive || !currentCode.type) {
       infobar.innerHTML = '';
       return;
     }
@@ -27,7 +51,7 @@ var qrCoder = (() => {
       <img src="${chrome.runtime.getURL(`assets/${currentCode.type}.png`)}" />
       <span title="${currentCode.text}">${currentCode.text}</span>`
   }
-  
+
   const clearQRCode = () => {
     qrCode.innerHTML = '';
     qrCode.setAttribute('title', '');
@@ -35,7 +59,7 @@ var qrCoder = (() => {
     currentCode.text = null;
     renderInfoBar();
   }
-  
+
   const showQRCodeForText = (type, text, title) => {
     if (!text) {
       clearQRCode();
@@ -47,7 +71,7 @@ var qrCoder = (() => {
     qrCode.setAttribute('title', '');
     currentCode.type = null;
     currentCode.text = null;
-    
+
     try {
       new QRCode(qrCode, {
         text,
@@ -66,67 +90,60 @@ var qrCoder = (() => {
       renderInfoBar();
     }
   };
-  
+
   const hideQRCode = () => {
     qrContainer.style.display = 'none';
   };
-  
+
   const showQRCodeForPage = () => {
     showQRCodeForText('home', location.href);
   }
 
   const showQRCodeForLink = link => {
-    if (!toolbar.state.linkActive || toolbar.state.lockActive) return;
+    if (!currentSettings.linkActive || currentSettings.lockActive) return;
 
     showQRCodeForText('link', link.href, link.innerText);
   }
-  
+
   const showQRCodeForTextSelection = () => {
-    if (!toolbar.state.textSelectionActive || toolbar.state.lockActive) return;
-    
+    if (!currentSettings.textSelectionActive || currentSettings.lockActive) return;
+
     const selectedText = window.getSelection().toString();
     showQRCodeForText('text-selection', selectedText);
   }
-  
+
   const createToolbar = () => {
-    const toolbarState = {
-      lockActive: false,
-      textSelectionActive: true,
-      linkActive: true,
-      infoActive: true
-    };
-    
     const homeButton = document.createElement('button');
     const lockButton = document.createElement('button');
     const textSelectionButton = document.createElement('button');
     const linkButton = document.createElement('button');
     const infoButton = document.createElement('button');
-    
+
     const update = () => {
       homeButton.innerHTML = `<img src="${chrome.runtime.getURL('assets/home.png')}" />`;
-      lockButton.innerHTML = `<img src="${chrome.runtime.getURL(toolbarState.lockActive ? 'assets/lock-closed.png' : 'assets/lock-open.png')}" />`;
-      textSelectionButton.innerHTML = `<img src="${chrome.runtime.getURL(toolbarState.textSelectionActive ? 'assets/text-selection-active.png' : 'assets/text-selection.png')}" />`;
-      linkButton.innerHTML = `<img src="${chrome.runtime.getURL(toolbarState.linkActive ? 'assets/link-active.png' : 'assets/link.png')}" />`;
-      infoButton.innerHTML = `<img src="${chrome.runtime.getURL(toolbarState.infoActive ? 'assets/info-active.png' : 'assets/info.png')}" />`;
+      lockButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.lockActive ? 'assets/lock-closed.png' : 'assets/lock-open.png')}" />`;
+      textSelectionButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.textSelectionActive ? 'assets/text-selection-active.png' : 'assets/text-selection.png')}" />`;
+      linkButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.linkActive ? 'assets/link-active.png' : 'assets/link.png')}" />`;
+      infoButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.infoActive ? 'assets/info-active.png' : 'assets/info.png')}" />`;
     }
 
     const toggleLockActive = () => {
-      toolbarState.lockActive = !toolbarState.lockActive;
+      updateSettings('lockActive', !currentSettings.lockActive);
       update();
     };
 
     const toggleTextSelectionActive = () => {
-      toolbarState.textSelectionActive = !toolbarState.textSelectionActive;
+      updateSettings('textSelectionActive', !currentSettings.textSelectionActive);
       update();
     };
 
     const toggleLinkActive = () => {
-      toolbarState.linkActive = !toolbarState.linkActive;
+      updateSettings('linkActive', !currentSettings.linkActive);
       update();
     };
 
     const toggleInfoActive = () => {
-      toolbarState.infoActive = !toolbarState.infoActive;
+      updateSettings('infoActive', !currentSettings.infoActive);
       update();
       renderInfoBar();
     };
@@ -153,11 +170,10 @@ var qrCoder = (() => {
       infoButton.removeEventListener('click', toggleInfoActive);
       toolbarContainer.innerHTML = '';
     }
-    
+
     return {
       initialize,
-      destroy,
-      state: toolbarState
+      destroy
     };
   }
 
@@ -165,31 +181,64 @@ var qrCoder = (() => {
     const listener = () => showQRCodeForLink(link);
 
     link.addEventListener('mouseover', listener);
-    
+
     registeredListeners.push({
       link,
       mouseover: listener
     });
   };
-  
+
+  const handleKeyDown = event => {
+    if (event.shiftKey) {
+      switch (event.code) {
+        case 'ArrowUp':
+          updateSettings('posY', 'top');
+          return setQRCodePosition();
+        case 'ArrowDown':
+          updateSettings('posY', 'bottom');
+          return setQRCodePosition();
+        case 'ArrowLeft':
+          updateSettings('posX', 'left');
+          return setQRCodePosition();
+        case 'ArrowRight':
+          updateSettings('posX', 'right');
+          return setQRCodePosition();
+      }
+    }
+  }
+
   const init = () => {
+    document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('selectionchange', showQRCodeForTextSelection);
     document.querySelectorAll('a').forEach(addMouseOverListeners);
     document.body.appendChild(qrContainer);
-    
-    toolbar = createToolbar();
-    toolbar.initialize();
-    
-    showQRCodeForPage();
+
+    chrome.storage.sync.get(['qrcoder.settings'], result => {
+      const settingsFromStorage = result && result['qrcoder.settings'] && JSON.parse(result['qrcoder.settings']);
+      currentSettings = settingsFromStorage ||
+        {
+          lockActive: false,
+          textSelectionActive: true,
+          linkActive: true,
+          infoActive: true,
+          posX: 'right',
+          posY: 'top'
+        };
+      toolbar = createToolbar();
+      toolbar.initialize();
+      setQRCodePosition();
+      showQRCodeForPage();
+    });
   };
-  
+
   const destroy = () => {
+    document.removeEventListener('keydown', handleKeyDown);
     document.removeEventListener('selectionchange', showQRCodeForTextSelection);
-    
+
     registeredListeners.forEach(listener => {
       listener.link.removeEventListener('mouseover', listener.mouseover);
     })
-    
+
     toolbar.destroy();
     document.body.removeChild(qrContainer);
   };

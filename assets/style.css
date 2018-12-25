@@ -1,7 +1,5 @@
 .qrcoder.qrcode-container {
   position: fixed;
-  top: 20px;
-  right: 20px;
   padding: 20px;
   border: 1px solid gray;
   background: white;
@@ -36,7 +34,7 @@
   align-items: center;
   max-width: 260px;
 }
- 
+
 .qrcoder .qrcoder-infobar:not(:empty) {
   border-top: 1px solid gray;
   margin-top: 12px;
