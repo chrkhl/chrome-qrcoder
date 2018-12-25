@@ -2,16 +2,19 @@ var port = chrome.runtime.connect({ name: 'qrcoder' });
 
 var qrCoder = (() => {
   const registeredListeners = [];
+  const qrCodeOverlay = document.createElement('div');
   const qrContainer = document.createElement('div');
   const qrCode = document.createElement('div');
   const toolbarContainer = document.createElement('div');
   const infobar = document.createElement('div');
-  const currentCode = { type: null, text: null };
+  const currentCode = { type: null, text: null, title: null };
+  let fullsize = false;
   let currentSettings = null;
   let toolbar;
 
   qrCode.setAttribute('class', 'qrcode');
   qrContainer.setAttribute('class', 'qrcoder qrcode-container');
+  qrCodeOverlay.setAttribute('class', 'qrcoder qrcode-overlay');
   toolbarContainer.setAttribute('class', 'qrcoder-toolbar');
   infobar.setAttribute('class', 'qrcoder-infobar');
   qrContainer.appendChild(toolbarContainer);
@@ -60,12 +63,21 @@ var qrCoder = (() => {
     renderInfoBar();
   }
 
+  const getQRCodeSize = () => {
+    const length = fullsize ?
+      (Math.min(window.innerWidth, window.innerHeight) - 180) :
+      260;
+
+    return { width: length, height: length };
+  }
+
   const showQRCodeForText = (type, text, title) => {
     if (!text) {
       clearQRCode();
       return;
     }
 
+    const size = getQRCodeSize();
     qrContainer.style.display = 'inline-block';
     qrCode.innerHTML = '';
     qrCode.setAttribute('title', '');
@@ -74,13 +86,13 @@ var qrCoder = (() => {
 
     try {
       new QRCode(qrCode, {
-        text,
-        height: 260,
-        width: 260
+        ...size,
+        text
       });
       qrCode.setAttribute('title', title || text);
       currentCode.type = type;
       currentCode.text = text;
+      currentCode.title = title;
       renderInfoBar();
     } catch(error) {
       qrCode.innerHTML = `
@@ -205,12 +217,19 @@ var qrCoder = (() => {
           return setQRCodePosition();
       }
     }
+
+    if (event.altKey && event.code === 'KeyF') {
+      fullsize = !fullsize;
+      qrCodeOverlay.style.display = fullsize ? 'block' : 'none';
+      showQRCodeForText(currentCode.type, currentCode.text, currentCode.title);
+    }
   }
 
   const init = () => {
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('selectionchange', showQRCodeForTextSelection);
     document.querySelectorAll('a').forEach(addMouseOverListeners);
+    document.body.appendChild(qrCodeOverlay);
     document.body.appendChild(qrContainer);
 
     chrome.storage.sync.get(['qrcoder.settings'], result => {
@@ -240,6 +259,7 @@ var qrCoder = (() => {
     })
 
     toolbar.destroy();
+    document.body.removeChild(qrCodeOverlay);
     document.body.removeChild(qrContainer);
   };
 
