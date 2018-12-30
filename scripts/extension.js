@@ -12,7 +12,8 @@ function addTab(tab){
   tabs[tab.id].activate(tab);
 }
 
-function deactivateTab(id){
+function deactivateTab(id) {
+  if (!tabs[id]) return;
   tabs[id].deactivate();
 }
 
@@ -28,7 +29,7 @@ var lastBrowserAction = null;
 chrome.browserAction.onClicked.addListener(tab => {
   if(lastBrowserAction && Date.now() - lastBrowserAction < 10){
     // fix bug in Chrome Version 49.0.2623.87
-    // that triggers browserAction.onClicked twice 
+    // that triggers browserAction.onClicked twice
     // when called from shortcut _execute_browser_action
     return;
   }
@@ -42,13 +43,11 @@ chrome.runtime.onConnect.addListener(port => {
 
 chrome.runtime.onSuspend.addListener(() => {
   for(let tabId in tabs){
-    tabs[tabId].deactivate();
+    deactivateTab(tabId);
   }
 });
 
-chrome.tabs.onUpdated.addListener(tabId => {
-  tabs[tabId].deactivate();
-});
+chrome.tabs.onUpdated.addListener(deactivateTab);
 
 var qrcoder = {
   alive: true,
@@ -57,19 +56,19 @@ var qrcoder = {
     this.tab = tab;
 
     this.onBrowserDisconnectClosure = this.onBrowserDisconnect.bind(this);
-    
+
     chrome.tabs.insertCSS(this.tab.id, { file: '/assets/style.css' });
     chrome.tabs.executeScript(this.tab.id, { file: '/scripts/qrcode.min.js' });
     chrome.tabs.executeScript(this.tab.id, { file: '/scripts/content.js' });
-    
-    chrome.browserAction.setIcon({ 
+
+    chrome.browserAction.setIcon({
       tabId: this.tab.id,
       path: '/assets/icon-active.png'
     });
-    
+
     if (!this.port) return;
-    
-    this.port.postMessage({ 
+
+    this.port.postMessage({
       type: 'init'
     });
   },
@@ -88,11 +87,11 @@ var qrcoder = {
       console.error('error', error);
     }
 
-    chrome.browserAction.setIcon({  
+    chrome.browserAction.setIcon({
       tabId: this.tab.id,
       path: '/assets/icon.png'
     });
-    
+
     window.removeTab(this.tab.id);
   },
 
