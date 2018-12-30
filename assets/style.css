@@ -19,6 +19,9 @@
   z-index: 100000000;
   box-shadow: 10px 10px 61px -20px rgba(0,0,0,0.75);
   display: none;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
+  user-select: none;
 }
 
 .qrcoder .qrcode {
@@ -31,12 +34,13 @@
 }
 
 .qrcoder .qrcode span.qrcoder-error {
-  font-size: 12px;
   font-style: italic;
 }
 
 .qrcoder .qrcoder-toolbar {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-bottom: 1px solid gray;
   margin-bottom: 12px;
 }
@@ -66,15 +70,28 @@
 }
 
 .qrcoder .qrcoder-toolbar button {
-  padding: 0;
-  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  margin: 4px;
+  cursor: pointer;
   border: none;
   background: transparent;
   outline: none;
+  box-shadow: none;
 }
 
-.qrcoder .qrcoder-toolbar img {
+.qrcoder .qrcoder-toolbar button:hover,
+.qrcoder .qrcoder-toolbar button:focus,
+.qrcoder .qrcoder-toolbar button:active {
+  border: none;
+  background: #74b9ff;
+  outline: none;
+  box-shadow: none;
+}
+
+
+.qrcoder .qrcoder-toolbar button img {
   width: 16px;
-  margin: 0 8px 8px 8px;
-  cursor: pointer;
 }
