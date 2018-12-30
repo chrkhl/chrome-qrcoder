@@ -121,6 +121,10 @@ var qrCoder = (() => {
     if (!currentSettings.textSelectionActive || currentSettings.lockActive) return;
 
     const selectedText = window.getSelection().toString();
+
+    if (!selectedText) {
+      return showQRCodeForPage();
+    }
     showQRCodeForText('text-selection', selectedText);
   }
 
