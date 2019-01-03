@@ -209,6 +209,9 @@ var qrCoder = (() => {
 
     return {
       initialize,
+      toggleLockActive,
+      toggleTextSelectionActive,
+      toggleLinkActive,
       destroy
     };
   }
@@ -243,6 +246,22 @@ var qrCoder = (() => {
           updateSettings('posX', currentPosX === 'left' ? 'center' : 'right');
           return setQRCodePosition();
       }
+    }
+
+    if (event.altKey && event.code === 'KeyH') {
+      return showQRCodeForPage();
+    }
+
+    if (event.altKey && event.code === 'KeyL') {
+      return toolbar.toggleLockActive();
+    }
+
+    if (event.altKey && event.code === 'KeyT') {
+      return toolbar.toggleTextSelectionActive();
+    }
+
+    if (event.altKey && event.code === 'KeyU') {
+      return toolbar.toggleLinkActive();
     }
 
     if (event.altKey && event.code === 'KeyF') {
