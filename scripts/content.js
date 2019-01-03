@@ -25,8 +25,7 @@ var qrCoder = (() => {
     let positionStyle = 'display:inline-block;';
 
     if (fullsize) {
-      const qrCodeWidth = getQRCodeSize().width;
-      const left = (window.innerWidth - qrCodeWidth) / 2;
+      const left = (window.innerWidth - qrContainer.clientWidth) / 2;
 
       positionStyle += `left:${left}px;`;
       positionStyle += 'top:20px;';
@@ -35,11 +34,11 @@ var qrCoder = (() => {
       if (currentSettings.posX === 'left') {
         positionStyle += 'left:20px;';
       } else {
-        positionStyle += 'right:20px;';
+        positionStyle += `left:${window.innerWidth - qrContainer.clientWidth - 20}px;`;
       }
 
       if (currentSettings.posY === 'bottom') {
-        positionStyle += 'bottom:20px;';
+        positionStyle += `top:${window.innerHeight - qrContainer.clientHeight - 20}px;`;
       } else {
         positionStyle += 'top:20px;';
       }
@@ -146,8 +145,8 @@ var qrCoder = (() => {
   const toggleFullsize = newValue => {
     fullsize = newValue;
     qrCodeOverlay.style.display = fullsize ? 'block' : 'none';
-    setQRCodePosition();
     showQRCodeForText(currentCode.type, currentCode.text, currentCode.title);
+    setQRCodePosition();
   }
 
   const createToolbar = () => {
@@ -263,8 +262,8 @@ var qrCoder = (() => {
         };
       toolbar = createToolbar();
       toolbar.initialize();
-      setQRCodePosition();
       showQRCodeForPage();
+      setQRCodePosition();
     });
   };
 
