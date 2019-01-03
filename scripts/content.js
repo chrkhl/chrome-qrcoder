@@ -138,8 +138,8 @@ var qrCoder = (() => {
     showQRCodeForText('text-selection', selectedText);
   }
 
-  const toggleFullsize = () => {
-    fullsize = !fullsize;
+  const toggleFullsize = newValue => {
+    fullsize = newValue;
     qrCodeOverlay.style.display = fullsize ? 'block' : 'none';
     setQRCodePosition();
     showQRCodeForText(currentCode.type, currentCode.text, currentCode.title);
@@ -229,7 +229,11 @@ var qrCoder = (() => {
     }
 
     if (event.altKey && event.code === 'KeyF') {
-      return toggleFullsize();
+      return toggleFullsize(!fullsize);
+    }
+
+    if (event.code === 'Escape' && fullsize) {
+      return toggleFullsize(false);
     }
   }
 
