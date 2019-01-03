@@ -15,9 +15,10 @@
   position: fixed;
   padding: 20px;
   border: 1px solid gray;
+  border-radius: 4px;
   background: white;
   z-index: 100000000;
-  box-shadow: 10px 10px 61px -20px rgba(0,0,0,0.75);
+  box-shadow: 20px 20px 60px -20px rgba(0,0,0,0.75);
   display: none;
   font-family: Verdana, Arial, sans-serif;
   font-size: 12px;
@@ -68,6 +69,18 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.qrcoder .qrcoder-toolbar div.qrcoder-info {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.qrcoder .qrcoder-toolbar img.qrcoder-logo {
+  width: 16px;
+  margin-right: 6px;
 }
 
 .qrcoder .qrcoder-toolbar button {

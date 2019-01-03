@@ -154,6 +154,7 @@ var qrCoder = (() => {
   }
 
   const createToolbar = () => {
+    const info = document.createElement('div');
     const homeButton = document.createElement('button');
     const lockButton = document.createElement('button');
     const textSelectionButton = document.createElement('button');
@@ -182,6 +183,9 @@ var qrCoder = (() => {
     };
 
     const initialize = () => {
+      info.setAttribute('class', 'qrcoder-info');
+      info.innerHTML = `<img class="qrcoder-logo" src="${chrome.runtime.getURL('assets/icon.png')}" /> QRCoder`;
+      toolbarContainer.appendChild(info);
       toolbarContainer.appendChild(homeButton);
       toolbarContainer.appendChild(lockButton);
       toolbarContainer.appendChild(textSelectionButton);
