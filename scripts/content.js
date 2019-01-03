@@ -45,7 +45,7 @@ var qrCoder = (() => {
   }
 
   const renderInfoBar = () => {
-    if (!currentSettings.infoActive || !currentCode.type) {
+    if (!currentCode.type) {
       infobar.innerHTML = '';
       return;
     }
@@ -133,14 +133,12 @@ var qrCoder = (() => {
     const lockButton = document.createElement('button');
     const textSelectionButton = document.createElement('button');
     const linkButton = document.createElement('button');
-    const infoButton = document.createElement('button');
 
     const update = () => {
       homeButton.innerHTML = `<img src="${chrome.runtime.getURL('assets/home.png')}" />`;
       lockButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.lockActive ? 'assets/lock-closed.png' : 'assets/lock-open.png')}" />`;
       textSelectionButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.textSelectionActive ? 'assets/text-selection-active.png' : 'assets/text-selection.png')}" />`;
       linkButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.linkActive ? 'assets/link-active.png' : 'assets/link.png')}" />`;
-      infoButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.infoActive ? 'assets/info-active.png' : 'assets/info.png')}" />`;
     }
 
     const toggleLockActive = () => {
@@ -158,23 +156,15 @@ var qrCoder = (() => {
       update();
     };
 
-    const toggleInfoActive = () => {
-      updateSettings('infoActive', !currentSettings.infoActive);
-      update();
-      renderInfoBar();
-    };
-
     const initialize = () => {
       toolbarContainer.appendChild(homeButton);
       toolbarContainer.appendChild(lockButton);
       toolbarContainer.appendChild(textSelectionButton);
       toolbarContainer.appendChild(linkButton);
-      toolbarContainer.appendChild(infoButton);
       homeButton.addEventListener('click', showQRCodeForPage);
       lockButton.addEventListener('click', toggleLockActive);
       textSelectionButton.addEventListener('click', toggleTextSelectionActive);
       linkButton.addEventListener('click', toggleLinkActive);
-      infoButton.addEventListener('click', toggleInfoActive);
       update();
     }
 
@@ -183,7 +173,6 @@ var qrCoder = (() => {
       lockButton.removeEventListener('click', toggleLockActive);
       textSelectionButton.removeEventListener('click', toggleTextSelectionActive);
       linkButton.removeEventListener('click', toggleLinkActive);
-      infoButton.removeEventListener('click', toggleInfoActive);
       toolbarContainer.innerHTML = '';
     }
 
@@ -243,7 +232,6 @@ var qrCoder = (() => {
           lockActive: false,
           textSelectionActive: true,
           linkActive: true,
-          infoActive: true,
           posX: 'right',
           posY: 'top'
         };
