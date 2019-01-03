@@ -23,22 +23,26 @@ var qrCoder = (() => {
 
   const setQRCodePosition = () => {
     let positionStyle = 'display:inline-block;';
+    const leftCenter = (window.innerWidth - qrContainer.clientWidth) / 2;
+    const topCenter = (window.innerHeight - qrContainer.clientHeight) / 2;
 
     if (fullsize) {
-      const left = (window.innerWidth - qrContainer.clientWidth) / 2;
-
-      positionStyle += `left:${left}px;`;
-      positionStyle += 'top:20px;';
+      positionStyle += `left:${leftCenter}px;`;
+      positionStyle += `top:${topCenter}px;`;
     }
     else {
       if (currentSettings.posX === 'left') {
         positionStyle += 'left:20px;';
+      } else if (currentSettings.posX === 'center') {
+        positionStyle += `left:${leftCenter}px;`;
       } else {
         positionStyle += `left:${window.innerWidth - qrContainer.clientWidth - 20}px;`;
       }
 
       if (currentSettings.posY === 'bottom') {
         positionStyle += `top:${window.innerHeight - qrContainer.clientHeight - 20}px;`;
+      } else if (currentSettings.posY === 'center') {
+        positionStyle += `top:${topCenter}px;`;
       } else {
         positionStyle += 'top:20px;';
       }
@@ -218,18 +222,21 @@ var qrCoder = (() => {
 
   const handleKeyDown = event => {
     if (event.shiftKey) {
+      const currentPosY = currentSettings['posY'];
+      const currentPosX = currentSettings['posX'];
+
       switch (event.code) {
         case 'ArrowUp':
-          updateSettings('posY', 'top');
+          updateSettings('posY', currentPosY === 'bottom' ? 'center' : 'top');
           return setQRCodePosition();
         case 'ArrowDown':
-          updateSettings('posY', 'bottom');
+          updateSettings('posY', currentPosY === 'top' ? 'center' : 'bottom');
           return setQRCodePosition();
         case 'ArrowLeft':
-          updateSettings('posX', 'left');
+          updateSettings('posX', currentPosX === 'right' ? 'center' : 'left');
           return setQRCodePosition();
         case 'ArrowRight':
-          updateSettings('posX', 'right');
+          updateSettings('posX', currentPosX === 'left' ? 'center' : 'right');
           return setQRCodePosition();
       }
     }
