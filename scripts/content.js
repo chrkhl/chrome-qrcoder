@@ -138,6 +138,11 @@ var qrCoder = (() => {
     showQRCodeForText('text-selection', selectedText);
   }
 
+  const handleWindowResize = () => {
+    showQRCodeForText(currentCode.type, currentCode.text, currentCode.title);
+    setQRCodePosition();
+  }
+
   const toggleFullsize = newValue => {
     fullsize = newValue;
     qrCodeOverlay.style.display = fullsize ? 'block' : 'none';
@@ -182,6 +187,7 @@ var qrCoder = (() => {
       lockButton.addEventListener('click', toggleLockActive);
       textSelectionButton.addEventListener('click', toggleTextSelectionActive);
       linkButton.addEventListener('click', toggleLinkActive);
+      window.addEventListener('resize', handleWindowResize);
       update();
     }
 
@@ -190,6 +196,7 @@ var qrCoder = (() => {
       lockButton.removeEventListener('click', toggleLockActive);
       textSelectionButton.removeEventListener('click', toggleTextSelectionActive);
       linkButton.removeEventListener('click', toggleLinkActive);
+      window.removeEventListener('resize', handleWindowResize);
       toolbarContainer.innerHTML = '';
     }
 
