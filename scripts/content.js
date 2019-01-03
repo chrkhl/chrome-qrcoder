@@ -24,16 +24,25 @@ var qrCoder = (() => {
   const setQRCodePosition = () => {
     let positionStyle = 'display:inline-block;';
 
-    if (currentSettings.posX === 'left') {
-      positionStyle += 'left:20px;';
-    } else {
-      positionStyle += 'right:20px;';
-    }
+    if (fullsize) {
+      const qrCodeWidth = getQRCodeSize().width;
+      const left = (window.innerWidth - qrCodeWidth) / 2;
 
-    if (currentSettings.posY === 'bottom') {
-      positionStyle += 'bottom:20px;';
-    } else {
+      positionStyle += `left:${left}px;`;
       positionStyle += 'top:20px;';
+    }
+    else {
+      if (currentSettings.posX === 'left') {
+        positionStyle += 'left:20px;';
+      } else {
+        positionStyle += 'right:20px;';
+      }
+
+      if (currentSettings.posY === 'bottom') {
+        positionStyle += 'bottom:20px;';
+      } else {
+        positionStyle += 'top:20px;';
+      }
     }
 
     qrContainer.setAttribute('style', positionStyle);
@@ -83,6 +92,7 @@ var qrCoder = (() => {
     qrCode.setAttribute('title', '');
     currentCode.type = null;
     currentCode.text = null;
+    infobar.setAttribute('style', `max-width:${size.width}px;`);
 
     try {
       new QRCode(qrCode, {
@@ -126,6 +136,13 @@ var qrCoder = (() => {
       return showQRCodeForPage();
     }
     showQRCodeForText('text-selection', selectedText);
+  }
+
+  const toggleFullsize = () => {
+    fullsize = !fullsize;
+    qrCodeOverlay.style.display = fullsize ? 'block' : 'none';
+    setQRCodePosition();
+    showQRCodeForText(currentCode.type, currentCode.text, currentCode.title);
   }
 
   const createToolbar = () => {
@@ -212,9 +229,7 @@ var qrCoder = (() => {
     }
 
     if (event.altKey && event.code === 'KeyF') {
-      fullsize = !fullsize;
-      qrCodeOverlay.style.display = fullsize ? 'block' : 'none';
-      showQRCodeForText(currentCode.type, currentCode.text, currentCode.title);
+      return toggleFullsize();
     }
   }
 
