@@ -5,19 +5,19 @@ This extension can generate QR codes from the URL, selected text or links of the
 
 ## Features
 
-### Generate QR code for the current website URL
+### <img src="./assets/home.png" width=16 /> Generate QR code for the current website URL
 
 On startup QRCoder generates a QR code for the current website URL. You can trigger this manually by clicking the home button <img src="./assets/home.png" width=16 /> in the toolbar or with the keyboard shortcut ALT+H.
 
-### Generate QR code on text selection change
+### <img src="./assets/text-selection.png" width=16 /> Generate QR code on text selection change
 
 QRCoder can generate QR codes for selected text of the current website. QR code generation is trigged only by text selection changes. You can (de-)activate this behavior by clicking the text selection button <img src="./assets/text-selection.png" width=16 /> in the toolbar or with the keyboard shortcut ALT+T.
 
-### Generate QR code on hovering links
+### <img src="./assets/link.png" width=16 /> Generate QR code on hovering links
 
 QRCoder can generate QR codes for link URLs when you hover over them with your mouse. You can (de-)activate this behavior by clicking the link button <img src="./assets/link.png" width=16 /> in the toolbar or with the keyboard shortcut ALT+U.
 
-### Lock current QR code
+### <img src="./assets/lock-open.png" width=16 /> Lock current QR code
 
 You can (un-)lock the current QR code by clicking the lock button <img src="./assets/lock-open.png" width=16 /> in the toolbar or with the keyboard shortcut ALT+L. Locking prevents QR code generation by changing the selected text or hovering over links.
 
@@ -40,7 +40,7 @@ You can change the QR code position by hitting SHIFT and an arrow key on your ke
 | 9        | bottom   | right      | ALT + 9           |
 
 
-### Fullsize QR code
+### <img src="./assets/fullsize.png" width=16 /> Fullsize QR code
 
 The fullsize button <img src="./assets/fullsize.png" width=16 /> in the toolbar (or the keyboard shortcut ALT+F) generates a full sized QR code. You can exit the fullsize view by hitting the ESCAPE key or by clicking the fullsize button or by hitting ALT+F again.
 
