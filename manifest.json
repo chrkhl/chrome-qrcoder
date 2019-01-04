@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "QR Coder",
     "description": "This extension can generate QR codes from the URL, selected text or links of the current website.",
-    "version": "0.1",
+    "version": "1.0",
     "homepage_url": "https://github.com/chrkhl/qrcoder",
     "browser_action": {
         "default_icon": "assets/icon.png",
