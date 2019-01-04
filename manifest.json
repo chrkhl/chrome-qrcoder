@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
-    "name": "QR Coder",
+    "name": "QRCoder",
     "description": "This extension can generate QR codes from the URL, selected text or links of the current website.",
-    "version": "1.0",
-    "homepage_url": "https://github.com/chrkhl/qrcoder",
+    "version": "1.1",
+    "homepage_url": "https://github.com/chrkhl/chrome-qrcoder",
     "browser_action": {
         "default_icon": "assets/icon.png",
         "default_title": "QRCoder"
@@ -16,6 +16,11 @@
         "activeTab",
         "storage"
     ],
+    "icons": {
+      "16": "icon-16.png",
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+    },
     "content_security_policy": "script-src 'self' https://www.gstatic.com/; object-src 'self'",
     "web_accessible_resources": [
       "assets/icon.png",
