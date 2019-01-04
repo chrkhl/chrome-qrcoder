@@ -162,6 +162,7 @@ var qrCoder = (() => {
     qrCodeOverlay.style.display = fullsize ? 'block' : 'none';
     showQRCodeForText(currentCode.type, currentCode.text, currentCode.title);
     setQRCodePosition();
+    toolbar.update();
   }
 
   const createToolbar = () => {
@@ -170,12 +171,14 @@ var qrCoder = (() => {
     const lockButton = document.createElement('button');
     const textSelectionButton = document.createElement('button');
     const linkButton = document.createElement('button');
+    const fullsizeButton = document.createElement('button');
 
     const update = () => {
       homeButton.innerHTML = `<img src="${chrome.runtime.getURL('assets/home.png')}" />`;
       lockButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.lockActive ? 'assets/lock-closed.png' : 'assets/lock-open.png')}" />`;
       textSelectionButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.textSelectionActive ? 'assets/text-selection-active.png' : 'assets/text-selection.png')}" />`;
       linkButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.linkActive ? 'assets/link-active.png' : 'assets/link.png')}" />`;
+      fullsizeButton.innerHTML = `<img src="${chrome.runtime.getURL(fullsize ? 'assets/fullsize-active.png' : 'assets/fullsize.png')}" />`;
     }
 
     const toggleLockActive = () => {
@@ -193,18 +196,33 @@ var qrCoder = (() => {
       update();
     };
 
+    const toolbarToggleFullsize = () => {
+      toggleFullsize(!fullsize);
+    }
+
     const initialize = () => {
       info.setAttribute('class', 'qrcoder-info');
       info.innerHTML = `<img class="qrcoder-logo" src="${chrome.runtime.getURL('assets/icon.png')}" /> QRCoder`;
+
       toolbarContainer.appendChild(info);
       toolbarContainer.appendChild(homeButton);
       toolbarContainer.appendChild(lockButton);
       toolbarContainer.appendChild(textSelectionButton);
       toolbarContainer.appendChild(linkButton);
+      toolbarContainer.appendChild(fullsizeButton);
+
+      homeButton.setAttribute('class', 'qrcoder-button');
+      lockButton.setAttribute('class', 'qrcoder-button');
+      textSelectionButton.setAttribute('class', 'qrcoder-button');
+      linkButton.setAttribute('class', 'qrcoder-button');
+      fullsizeButton.setAttribute('class', 'qrcoder-button');
+
       homeButton.addEventListener('click', showQRCodeForPage);
       lockButton.addEventListener('click', toggleLockActive);
       textSelectionButton.addEventListener('click', toggleTextSelectionActive);
       linkButton.addEventListener('click', toggleLinkActive);
+      fullsizeButton.addEventListener('click', toolbarToggleFullsize);
+
       window.addEventListener('resize', handleWindowResize);
       update();
     }
@@ -214,6 +232,7 @@ var qrCoder = (() => {
       lockButton.removeEventListener('click', toggleLockActive);
       textSelectionButton.removeEventListener('click', toggleTextSelectionActive);
       linkButton.removeEventListener('click', toggleLinkActive);
+      fullsizeButton.removeEventListener('click', toolbarToggleFullsize);
       window.removeEventListener('resize', handleWindowResize);
       toolbarContainer.innerHTML = '';
     }
@@ -223,6 +242,7 @@ var qrCoder = (() => {
       toggleLockActive,
       toggleTextSelectionActive,
       toggleLinkActive,
+      update,
       destroy
     };
   }

@@ -83,29 +83,29 @@
   margin-right: 6px;
 }
 
-.qrcoder .qrcoder-toolbar button {
+.qrcoder .qrcoder-toolbar button.qrcoder-button {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 4px;
   margin: 4px;
   cursor: pointer;
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
   outline: none;
   box-shadow: none;
 }
 
-.qrcoder .qrcoder-toolbar button:hover,
-.qrcoder .qrcoder-toolbar button:focus,
-.qrcoder .qrcoder-toolbar button:active {
-  border: none;
-  background: #74b9ff;
+.qrcoder .qrcoder-toolbar button.qrcoder-button:hover,
+.qrcoder .qrcoder-toolbar button.qrcoder-button:focus,
+.qrcoder .qrcoder-toolbar button.qrcoder-button:active {
+  border: 1px solid #74b9ff;
+  background: transparent;
   outline: none;
   box-shadow: none;
 }
 
 
-.qrcoder .qrcoder-toolbar button img {
+.qrcoder .qrcoder-toolbar button.qrcoder-button img {
   width: 16px;
 }
