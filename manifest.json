@@ -1,6 +1,8 @@
 {
     "manifest_version": 2,
     "name": "QRCoder",
+    "short_name": "QRCoder",
+    "author": "Christian Kühl",
     "description": "This extension can generate QR codes from the URL, selected text or links of the current website.",
     "version": "1.2",
     "homepage_url": "https://github.com/chrkhl/chrome-qrcoder",
