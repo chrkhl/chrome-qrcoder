@@ -173,12 +173,25 @@ var qrCoder = (() => {
     const linkButton = document.createElement('button');
     const fullsizeButton = document.createElement('button');
 
-    const update = () => {
+    const setButtonImages = () => {
       homeButton.innerHTML = `<img src="${chrome.runtime.getURL('assets/home.png')}" />`;
       lockButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.lockActive ? 'assets/lock-closed.png' : 'assets/lock-open.png')}" />`;
       textSelectionButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.textSelectionActive ? 'assets/text-selection-active.png' : 'assets/text-selection.png')}" />`;
       linkButton.innerHTML = `<img src="${chrome.runtime.getURL(currentSettings.linkActive ? 'assets/link-active.png' : 'assets/link.png')}" />`;
       fullsizeButton.innerHTML = `<img src="${chrome.runtime.getURL(fullsize ? 'assets/fullsize-active.png' : 'assets/fullsize.png')}" />`;
+    }
+
+    const setButtonTitles = () => {
+      homeButton.setAttribute('title', 'Generate QR Code for the current page URL.\nShortcut: [ALT] + [H]');
+      lockButton.setAttribute('title', `${currentSettings['lockActive'] ? 'Unlock' : 'Lock'} current QR Code.\nShortcut: [ALT] + [L]`);
+      textSelectionButton.setAttribute('title', `${currentSettings['textSelectionActive'] ? 'Deactivate' : 'Activate'} QR Code generation for text selection changes.\nShortcut: [ALT] + [T]`);
+      linkButton.setAttribute('title', `${currentSettings['linkActive'] ? 'Deactivate' : 'Activate'} QR Code generation for link hovering.\nShortcut: [ALT] + [U]`);
+      fullsizeButton.setAttribute('title', `${fullsize ? 'Deactivate' : 'Activate'} fullsize QR Code.\nShortcut: [ALT] + [F]`);
+    }
+
+    const update = () => {
+      setButtonImages();
+      setButtonTitles();
     }
 
     const toggleLockActive = () => {
