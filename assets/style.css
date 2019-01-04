@@ -78,6 +78,13 @@
   justify-content: flex-start;
 }
 
+.qrcoder .qrcoder-toolbar div.qrcoder-info a.qrcoder-link {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #2980B9;
+}
+
 .qrcoder .qrcoder-toolbar img.qrcoder-logo {
   width: 20px;
   margin-right: 6px;
@@ -99,7 +106,7 @@
 .qrcoder .qrcoder-toolbar button.qrcoder-button:hover,
 .qrcoder .qrcoder-toolbar button.qrcoder-button:focus,
 .qrcoder .qrcoder-toolbar button.qrcoder-button:active {
-  border: 1px solid #74b9ff;
+  border: 1px solid #2980B9;
   background: transparent;
   outline: none;
   box-shadow: none;

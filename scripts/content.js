@@ -215,13 +215,13 @@ var qrCoder = (() => {
 
     const initialize = () => {
       info.setAttribute('class', 'qrcoder-info');
-      info.innerHTML = `<a href="https://github.com/chrkhl/chrome-qrcoder/blob/master/readme.md" target="_blank"><img class="qrcoder-logo" src="${chrome.runtime.getURL('assets/icon-active.png')}" /> QRCoder</a>`;
+      info.innerHTML = `<a href="https://github.com/chrkhl/chrome-qrcoder/blob/master/readme.md" class="qrcoder-link" target="_blank"><img class="qrcoder-logo" src="${chrome.runtime.getURL('assets/icon-active.png')}" /> QRCoder</a>`;
 
       toolbarContainer.appendChild(info);
       toolbarContainer.appendChild(homeButton);
-      toolbarContainer.appendChild(lockButton);
       toolbarContainer.appendChild(textSelectionButton);
       toolbarContainer.appendChild(linkButton);
+      toolbarContainer.appendChild(lockButton);
       toolbarContainer.appendChild(fullsizeButton);
 
       homeButton.setAttribute('class', 'qrcoder-button');
