@@ -8,6 +8,17 @@ var qrCoder = (() => {
   const toolbarContainer = document.createElement('div');
   const infobar = document.createElement('div');
   const currentCode = { type: null, text: null, title: null };
+  const positionMap = {
+    Digit1: { posX: 'left', posY: 'top'},
+    Digit2: { posX: 'center', posY: 'top'},
+    Digit3: { posX: 'right', posY: 'top'},
+    Digit4: { posX: 'left', posY: 'center'},
+    Digit5: { posX: 'center', posY: 'center'},
+    Digit6: { posX: 'right', posY: 'center'},
+    Digit7: { posX: 'left', posY: 'bottom'},
+    Digit8: { posX: 'center', posY: 'bottom'},
+    Digit9: { posX: 'right', posY: 'bottom'}
+  };
   let fullsize = false;
   let currentSettings = null;
   let toolbar;
@@ -248,24 +259,34 @@ var qrCoder = (() => {
       }
     }
 
-    if (event.altKey && event.code === 'KeyH') {
-      return showQRCodeForPage();
-    }
+    if (event.altKey) {
+      if (event.code === 'KeyH') {
+        return showQRCodeForPage();
+      }
 
-    if (event.altKey && event.code === 'KeyL') {
-      return toolbar.toggleLockActive();
-    }
+      if (event.code === 'KeyL') {
+        return toolbar.toggleLockActive();
+      }
 
-    if (event.altKey && event.code === 'KeyT') {
-      return toolbar.toggleTextSelectionActive();
-    }
+      if (event.code === 'KeyT') {
+        return toolbar.toggleTextSelectionActive();
+      }
 
-    if (event.altKey && event.code === 'KeyU') {
-      return toolbar.toggleLinkActive();
-    }
+      if (event.code === 'KeyU') {
+        return toolbar.toggleLinkActive();
+      }
 
-    if (event.altKey && event.code === 'KeyF') {
-      return toggleFullsize(!fullsize);
+      if (event.code === 'KeyF') {
+        return toggleFullsize(!fullsize);
+      }
+
+
+      if (!fullsize && positionMap[event.code]) {
+        const mappedPosition = positionMap[event.code];
+        updateSettings('posX', mappedPosition.posX);
+        updateSettings('posY', mappedPosition.posY);
+        return setQRCodePosition();
+      }
     }
 
     if (event.code === 'Escape' && fullsize) {
