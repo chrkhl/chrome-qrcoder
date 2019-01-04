@@ -1,4 +1,4 @@
-# QRCoder
+# QRCoder Chrome Extension
 ![QRCoder](./assets/icon-active.svg)
 
 This extension can generate QR codes from the URL, selected text or links of the current website.
