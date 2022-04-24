@@ -89,7 +89,7 @@ var qrCoder = (() => {
   const getQRCodeSize = () => {
     const length = fullsize ?
       (Math.min(window.innerWidth, window.innerHeight) - 180) :
-      260;
+      300;
 
     return { width: length, height: length };
   }
@@ -339,13 +339,13 @@ var qrCoder = (() => {
       currentSettings = settingsFromStorage ||
         {
           lockActive: false,
-          textSelectionActive: true,
-          linkActive: true,
+          textSelectionActive: false,
+          linkActive: false,
           posX: 'right',
           posY: 'top'
         };
       toolbar = createToolbar();
-      toolbar.initialize();
+      //toolbar.initialize();
       showQRCodeForPage();
       setQRCodePosition();
     });
